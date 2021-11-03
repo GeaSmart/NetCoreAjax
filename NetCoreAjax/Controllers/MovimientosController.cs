@@ -32,7 +32,7 @@ namespace NetCoreAjax.Controllers
         {
             if (id == 0)
             {
-                return View();
+                return View(new Movimiento());
             }
             else
             {
@@ -45,56 +45,42 @@ namespace NetCoreAjax.Controllers
             }            
         }
 
-        // POST: Movimientos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,NumeroCuenta,Referencia,Cantidad")] Movimiento movimiento)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(movimiento);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(movimiento);
-        }
-             
-
         // POST: Movimientos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NumeroCuenta,Referencia,Cantidad")] Movimiento movimiento)
+        public async Task<IActionResult> AddOrEdit(int id, [Bind("Id,NumeroCuenta,Referencia,Cantidad,Date")] Movimiento movimiento)
         {
-            if (id != movimiento.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                if (id == 0)
                 {
-                    _context.Update(movimiento);
+                    _context.Add(movimiento);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!MovimientoExists(movimiento.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(movimiento);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!MovimientoExists(movimiento.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Json(new { isValid = true, html = Utils.Helper.RenderRazorViewToString(this, "_ListAll", _context.Movimientos.ToList()) });
             }
-            return View(movimiento);
+            return Json(new { isValid = false, html = Utils.Helper.RenderRazorViewToString(this, "AddOrEdit", movimiento) });
         }
 
         // GET: Movimientos/Delete/5

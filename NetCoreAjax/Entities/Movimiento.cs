@@ -20,6 +20,7 @@ namespace NetCoreAjax.Entities
         [Column(TypeName = "varchar(50)")]
         public string Referencia { get; set; }
 
+        [Display(Name = "Fecha de la operación")]
         public DateTime Date { get; set; }
 
         public int Cantidad { get; set; }
