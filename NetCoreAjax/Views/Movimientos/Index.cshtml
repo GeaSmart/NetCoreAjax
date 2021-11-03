@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.Cantidad)
             </th>
             <th>
-                <a asp-action="AddOrEdit" class="btn btn-success text-white"><i class="fas fa-plus-circle"></i> Añadir movimiento</a>
+                <a onclick="showPopup('@Url.Action("AddOrEdit","Movimientos",null,Context.Request.Scheme)', 'Nuevo movimiento')" class="btn btn-success text-white"><i class="fas fa-plus-circle"></i> Añadir movimiento</a>
             </th>
         </tr>
     </thead>

@@ -14,6 +14,7 @@ namespace NetCoreAjax.Entities
 
         [Required]
         [Column(TypeName = "varchar(20)")]
+        [Display(Name ="Número de cuenta")]
         public string NumeroCuenta { get; set; }
 
         [Column(TypeName = "varchar(50)")]
