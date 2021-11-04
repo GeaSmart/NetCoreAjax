@@ -1,7 +1,6 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
-
-const { type, error } = require("jquery");
+//const { type, error } = require("jquery");
 
 // Write your JavaScript code.
 
@@ -13,14 +12,17 @@ showPopup = (url, title) => {
             $("#form-modal .modal-title").html(title); //updating the modal title in the _Layout
             $("#form-modal .modal-body").html(res); //updating the modal body in the _Layout
             $("#form-modal").modal('show'); //showing the modal with jquery
+        },
+        error: function (err) {
+            console.log("errorr: " + err);
         }
     })
 }
 
 jQueryAjaxPost = form => {
-    $ajax({
+    $.ajax({
         type: 'POST',
-        url: form.Actions,
+        url: form.action,
         data: new FormData(form),
         contentType: false,
         processData: false,
@@ -40,4 +42,6 @@ jQueryAjaxPost = form => {
         }
 
     })
+    return false;
+
 }

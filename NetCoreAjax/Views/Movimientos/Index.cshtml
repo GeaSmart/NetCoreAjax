@@ -9,3 +9,7 @@
 <div id="list-all">
     @await Html.PartialAsync("_ListAll", Model)
 </div>
+
+@section Scripts{ 
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
